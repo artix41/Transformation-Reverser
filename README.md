@@ -4,9 +4,11 @@
 Neural networks learning to reverse 2D space transformations (translation, rotations, scaling). A GUI allows the users to define the datasets and the transformations, and to see the result. You can choose to use two kinds of neural networks :
 
 * Corrector :
+
 ![Corrector](/schema_corrector.png)
 
 * Symetric :
+
 ![Symetric](/schema_symetric.png)
 
 ## Installation
