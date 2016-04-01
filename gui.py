@@ -328,17 +328,17 @@ class Window(QtGui.QDialog):
             mean_blue = [float(self.input_params["mean_blue"][0].text()),
                         float(self.input_params["mean_blue"][1].text())]
         except ValueError:
-            mean_blue = [1.5, 0]
+            mean_blue = [-0.5, -0.5]
         try:
             mean_red = [float(self.input_params["mean_red"][0].text()),
                         float(self.input_params["mean_red"][1].text())]
         except ValueError:
-            mean_red = [1, 0]
+            mean_red = [0.5, -0.5]
         try:
             mean_green = [float(self.input_params["mean_green"][0].text()),
                         float(self.input_params["mean_green"][1].text())]
         except ValueError:
-            mean_green = [1.2, 0.5]
+            mean_green = [0, 0.5]
 
         source_x_blue, source_y_blue = np.random.multivariate_normal(mean_blue, [[std_blue,0],[0,std_blue]], nbr_blue_points).T
         source_x_red, source_y_red = np.random.multivariate_normal(mean_red, [[std_red,0],[0,std_red]], nbr_red_points).T
@@ -491,15 +491,15 @@ class Window(QtGui.QDialog):
 
         mean_blue_label = QtGui.QLabel("Mean for blue:", self)
         mean_blue_x_text = QtGui.QLineEdit(self)
-        mean_blue_x_text.setText('1')
+        mean_blue_x_text.setText('-0.5')
         mean_blue_y_text = QtGui.QLineEdit(self)
-        mean_blue_y_text.setText('0')
+        mean_blue_y_text.setText('-0.5')
 
         mean_red_label = QtGui.QLabel("Mean for red:", self)
         mean_red_x_text = QtGui.QLineEdit(self)
-        mean_red_x_text.setText('1.5')
+        mean_red_x_text.setText('0.5')
         mean_red_y_text = QtGui.QLineEdit(self)
-        mean_red_y_text.setText('0')
+        mean_red_y_text.setText('-0.5')
 
         mean_green_label = QtGui.QLabel("Mean for green:", self)
         mean_green_x_text = QtGui.QLineEdit(self)
@@ -509,7 +509,7 @@ class Window(QtGui.QDialog):
 
         mean_green_label = QtGui.QLabel("Mean for green:", self)
         mean_green_x_text = QtGui.QLineEdit(self)
-        mean_green_x_text.setText('1.2')
+        mean_green_x_text.setText('0')
         mean_green_y_text = QtGui.QLineEdit(self)
         mean_green_y_text.setText('0.5')
 
