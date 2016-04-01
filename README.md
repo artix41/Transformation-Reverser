@@ -14,4 +14,4 @@ It has been tested with python2.7 and the libraries below :
 * h5py 2.5.0
  
 Once you have all these libraries installed, you can run the program with :
-    python gui.py
+```python gui.py```
