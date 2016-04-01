@@ -12,3 +12,6 @@ It has been tested with python2.7 and the libraries below :
 * PyQt4
 * Keras 0.3.2
 * h5py 2.5.0
+ 
+Once you have all these libraries installed, you can run the program with :
+    python gui.py
