@@ -795,15 +795,28 @@ class Window(QtGui.QDialog):
 
         for i in range(nbr_noeuds):
             alpha_text[i] = QtGui.QLineEdit(self)
-            alpha_text[i].setText('1')
             beta_text[i] = QtGui.QLineEdit(self)
             beta_text[i].setText('1')
             x_text[i] = QtGui.QLineEdit(self)
             x_text[i].setText('0')
             y_text[i] = QtGui.QLineEdit(self)
             y_text[i].setText('0')
-
-
+        alpha_text[0].setText('1')
+        alpha_text[1].setText('-1')
+        alpha_text[2].setText('-1')
+        alpha_text[3].setText('1')
+        beta_text[0].setText('1')
+        beta_text[1].setText('-1')
+        beta_text[2].setText('1')
+        beta_text[3].setText('-1')
+        x_text[0].setText('0')
+        x_text[1].setText('0')
+        x_text[2].setText('1')
+        x_text[3].setText('-1')
+        y_text[0].setText('1')
+        y_text[1].setText('-1')
+        y_text[2].setText('0')
+        y_text[3].setText('0')
         grid.addWidget(gamma_label, 1, 0)
         grid.addWidget(gamma_text, 1, 1)
         for i in range(nbr_noeuds):
