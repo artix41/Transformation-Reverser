@@ -855,7 +855,7 @@ class Window(QtGui.QDialog):
         vect_z = np.array([z.real, z.imag])
         vect_x = [np.array([x[i], y[i]]) for i in range(nbr_noeuds)]
         X = np.sum([alpha[i] * np.exp(-gamma * np.linalg.norm(vect_z - vect_x[i])**2) for i in range(nbr_noeuds)])
-        Y = np.sum([beta[i] * np.exp(-gamma * (vect_z - vect_x[i])**2) for i in range(nbr_noeuds)])
+        Y = np.sum([beta[i] * np.exp(-gamma * np.linalg.norm(vect_z - vect_x[i])**2) for i in range(nbr_noeuds)])
         return complex(*tuple(np.array([X, Y])))
 
 
