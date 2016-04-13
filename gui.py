@@ -59,6 +59,7 @@ class Window(QtGui.QDialog):
         self.combo_t.addItem("Polynomial (CM)")
         self.combo_t.addItem("Log")
         self.combo_t.addItem("Matrix product")
+        self.combo_t.addItem("Exponential Kernel")
         self.combo_t.activated[str].connect(self.change_options_panel)
 
         self.options_func = {"Translation": self.options_translation,
@@ -68,7 +69,8 @@ class Window(QtGui.QDialog):
                              "Compression": self.options_compression,
                              "Polynomial (CM)": self.options_polynomial,
                              "Log": self.options_log,
-                             "Matrix product": self.options_matrix_product}
+                             "Matrix product": self.options_matrix_product,
+                             "Exponential Kernel": self.options_kernel}
 
         self.input_options_func = {"Mesh": self.options_mesh,
                                    "Gaussian Data Points": self.options_gaussian_points,
@@ -81,7 +83,8 @@ class Window(QtGui.QDialog):
                            "Compression": self.compression,
                            "Polynomial (CM)": self.polynomial,
                            "Log": self.log,
-                           "Matrix product": self.matrix_product}
+                           "Matrix product": self.matrix_product,
+                           "Exponential Kernel": self.kernel}
 
         # A figure instance to plot on
         self.figure_before = plt.figure()
@@ -776,6 +779,71 @@ class Window(QtGui.QDialog):
         M = np.array([[x11, x12], [x21, x22]])
 
         return complex(*tuple(np.dot(M, np.array([z.real, z.imag]))))
+
+    def options_kernel(self):
+        nbr_noeuds = 4
+        grid = QtGui.QGridLayout()
+
+        gamma_label = QtGui.QLabel("Gamma :", self)
+        gamma_text = QtGui.QLineEdit(self)
+        gamma_text.setText('1')
+        noeud_label = [QtGui.QLabel("Noeud " + str(i) + " (alpha, beta, x, y):", self) for i in range(nbr_noeuds)]
+        alpha_text = [0]*nbr_noeuds
+        beta_text = [0]*nbr_noeuds
+        x_text = [0]*nbr_noeuds
+        y_text = [0]*nbr_noeuds
+
+        for i in range(nbr_noeuds):
+            alpha_text[i] = QtGui.QLineEdit(self)
+            alpha_text[i].setText('1')
+            beta_text[i] = QtGui.QLineEdit(self)
+            beta_text[i].setText('1')
+            x_text[i] = QtGui.QLineEdit(self)
+            x_text[i].setText('0')
+            y_text[i] = QtGui.QLineEdit(self)
+            y_text[i].setText('0')
+
+
+        grid.addWidget(gamma_label, 1, 0)
+        grid.addWidget(gamma_text, 1, 1)
+        for i in range(nbr_noeuds):
+            grid.addWidget(noeud_label[i], 2+i, 0)
+            grid.addWidget(alpha_text[i], 2+i, 1)
+            grid.addWidget(beta_text[i], 2+i, 2)
+            grid.addWidget(x_text[i], 2+i, 3)
+            grid.addWidget(y_text[i], 2+i, 4)
+
+        params = {"gamma": gamma_text, "alpha": alpha_text, "beta": beta_text, "x": x_text, "y": y_text}
+        return grid, params
+
+    def kernel (self, z, data_type):
+        nbr_noeuds = 4
+        try:
+            gamma = float(self.trans_params["gamma"].text())
+        except ValueError:
+            gamma = 1
+        try:
+            alpha = [float(self.trans_params["alpha"][i].text()) for i in range(nbr_noeuds)]
+        except ValueError:
+            alpha = [0 for i in range(nbr_noeuds)]
+        try:
+            beta = [float(self.trans_params["beta"][i].text()) for i in range(nbr_noeuds)]
+        except ValueError:
+            beta = [0 for i in range(nbr_noeuds)]
+        try:
+            x = [float(self.trans_params["x"][i].text()) for i in range(nbr_noeuds)]
+        except ValueError:
+            x = [0 for i in range(nbr_noeuds)]
+        try:
+            y = [float(self.trans_params["y"][i].text()) for i in range(nbr_noeuds)]
+        except ValueError:
+            y = [0 for i in range(nbr_noeuds)]
+
+        vect_z = np.array([z.real, z.imag])
+        vect_x = [np.array([x[i], y[i]]) for i in range(nbr_noeuds)]
+        X = np.sum([alpha[i] * np.exp(-gamma * np.linalg.norm(vect_z - vect_x[i])**2) for i in range(nbr_noeuds)])
+        Y = np.sum([beta[i] * np.exp(-gamma * (vect_z - vect_x[i])**2) for i in range(nbr_noeuds)])
+        return complex(*tuple(np.array([X, Y])))
 
 
 # =========== Main Program ==============
