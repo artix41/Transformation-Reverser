@@ -9,7 +9,7 @@ import theano
 
 from keras.models import Sequential, Graph
 from keras.optimizers import SGD, RMSprop
-from keras.layers.core import Dense, LambdaMerge, Merge, Lambda
+from keras.layers.core import Dense, Merge, Lambda
 from keras import backend as K
 
 # ================= General functions ===================
