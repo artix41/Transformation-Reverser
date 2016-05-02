@@ -117,6 +117,20 @@ class Model:
            name='d')
         self.model.add_output(name='output', input='d')
 
+    """def buildCorrectorNN(self):
+        self.model.add_input(name='source', input_shape=(2,))
+        self.model.add_input(name='target', input_shape=(2,))
+
+
+        self.model.add_node(Dense(10), name='ip1', input='target')
+        self.model.add_node(Dense(2), name='corrector_t', input='ip1')
+
+        self.model.add_node(Lambda(euclidean_distance),
+           inputs=['source', 'corrector_t'],
+           merge_mode='join',
+           name='d')
+        self.model.add_output(name='output', input='d')"""
+
     def fit(self, source, target, sim):
         return self.model.fit({'source': source[:len(source)//2], 'target': target[:len(source)//2], 'output': sim[:len(source)//2]},
             validation_data={'source': source[len(source)//2:], 'target': target[len(source)//2:], 'output': sim[len(source)//2:]},

@@ -274,7 +274,9 @@ class Window(QtGui.QDialog):
         except ValueError:
             nbr_lines = 30
         x = np.linspace(-10, 10, nbr_lines)
+        x = np.concatenate([x, [0]])
         y = np.linspace(-10, 10, nbr_lines)
+        y = np.concatenate([y, [0]])
         mesh_x, mesh_y = np.meshgrid(x, y)
         self.mesh_z = [np.vectorize(complex)(mesh_x, mesh_y)]
 
@@ -285,21 +287,32 @@ class Window(QtGui.QDialog):
         ax = figure.axes[0]
         ax.clear()
         ax.axis((-3, 3, -1.5, 1.5))
-        ax.axhline(y=0, color='k', linewidth=2.0)
-        ax.axvline(x=0, color='k', linewidth=2.0)
+        #ax.axhline(y=0, color='k', linewidth=2.0)
+        #ax.axvline(x=0, color='k', linewidth=2.0)
 
         ax2 = self.figure_after.axes[0]
         ax2.clear()
         ax2.axis((-3, 3, -1.5, 1.5))
-        ax2.axhline(y=0, color='k', linewidth=2.0)
-        ax2.axvline(x=0, color='k', linewidth=2.0)
+        #ax2.axhline(y=0, color='k', linewidth=2.0)
+        #ax2.axvline(x=0, color='k', linewidth=2.0)
 
+        color, linewidth = "red", 1.0
         for i in range(self.mesh_z[-1].shape[0]):
-            ax.add_line(Line2D(self.mesh_z[index['target']].real[i, :], self.mesh_z[index['target']].imag[i, :], color="red")) # draw horizontal line
-            ax.add_line(Line2D(self.mesh_z[index['source']].real[i, :], self.mesh_z[index['source']].imag[i, :], color="red", linestyle="--")) # draw horizontal line
+            if i == self.mesh_z[-1].shape[0]-1: # draw the black axis
+                color, linewidth = "k", 2.0
+            ax.add_line(Line2D(self.mesh_z[index['target']].real[i, :], self.mesh_z[index['target']].imag[i, :],
+                                color=color, linewidth=linewidth))
+            ax.add_line(Line2D(self.mesh_z[index['source']].real[i, :], self.mesh_z[index['source']].imag[i, :],
+                                color=color, linestyle="--", linewidth=linewidth))
+
+        color, linewidth = "blue", 1
         for j in range(self.mesh_z[-1].shape[1]):
-            ax.add_line(Line2D(self.mesh_z[index['target']].real[:, j], self.mesh_z[index['target']].imag[:, j], color="blue")) # draw vertical line
-            ax.add_line(Line2D(self.mesh_z[index['source']].real[:, j], self.mesh_z[index['source']].imag[:, j], color="blue", linestyle="--")) # draw vertical line
+            if j == self.mesh_z[-1].shape[0]-1:
+                color, linewidth = "k", 2.0
+            ax.add_line(Line2D(self.mesh_z[index['target']].real[:, j], self.mesh_z[index['target']].imag[:, j],
+                                color=color, linewidth=linewidth)) # draw vertical line
+            ax.add_line(Line2D(self.mesh_z[index['source']].real[:, j], self.mesh_z[index['source']].imag[:, j],
+                                color=color, linestyle="--", linewidth=linewidth)) # draw vertical line
 
         # refresh canvas
         figure.canvas.draw()
