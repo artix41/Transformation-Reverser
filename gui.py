@@ -129,8 +129,6 @@ class Window(QtGui.QDialog):
 
         self.options_NN = QtGui.QGridLayout()
 
-        self.check_onlyP = QtGui.QCheckBox('Only positive pairs', self)
-        self.check_onlyP.setChecked(False)
         self.nbr_iter_label = QtGui.QLabel(self)
         self.nbr_iter_label.setText("Number of iterations :")
         self.nbr_iter_text = QtGui.QLineEdit(self)
@@ -145,13 +143,12 @@ class Window(QtGui.QDialog):
         self.proportion_positive_text.setText('0.5')
 
 
-        self.options_NN.addWidget(self.check_onlyP, 1, 0)
-        self.options_NN.addWidget(self.nbr_iter_label, 2, 0)
-        self.options_NN.addWidget(self.nbr_iter_text, 2, 1)
-        self.options_NN.addWidget(self.nbr_pairs_label, 3, 0)
-        self.options_NN.addWidget(self.nbr_pairs_text, 3, 1)
-        self.options_NN.addWidget(self.proportion_positive_label, 4, 0)
-        self.options_NN.addWidget(self.proportion_positive_text, 4, 1)
+        self.options_NN.addWidget(self.nbr_iter_label, 1, 0)
+        self.options_NN.addWidget(self.nbr_iter_text, 1, 1)
+        self.options_NN.addWidget(self.nbr_pairs_label, 2, 0)
+        self.options_NN.addWidget(self.nbr_pairs_text, 2, 1)
+        self.options_NN.addWidget(self.proportion_positive_label, 3, 0)
+        self.options_NN.addWidget(self.proportion_positive_text, 3, 1)
 
 
         self.text_results_nn = QtGui.QLabel(self)
@@ -235,10 +232,8 @@ class Window(QtGui.QDialog):
 
         nbr_pairs = int(self.nbr_pairs_text.text())
         proportion_positive = float(self.proportion_positive_text.text())
-        if self.check_onlyP.isChecked():
-            pairs, sim = createPairsPositive(X_source, X_target, self.labels, nbr_pairs, proportion_positive)
-        else:
-            pairs, sim = createPairs(X_source, X_target, self.labels, nbr_pairs, proportion_positive)
+        
+        pairs, sim = createPairs(X_source, X_target, self.labels, nbr_pairs, proportion_positive)
 
         print("=================== Training and testing ===================")
 
@@ -425,12 +420,12 @@ class Window(QtGui.QDialog):
         except ValueError:
             mean_green = [0, 0.5]
 
-        source_x_blue, source_y_blue = np.random.multivariate_normal(mean_blue, [[std_blue*5,0],[0,std_blue]], nbr_blue_points).T
-        source_x_red, source_y_red = np.random.multivariate_normal(mean_red, [[std_red*5,0],[0,std_red]], nbr_red_points).T
-        source_x_green, source_y_green = np.random.multivariate_normal(mean_green, [[std_green*5,0],[0,std_green]], nbr_green_points).T
-        target_x_blue, target_y_blue = np.random.multivariate_normal(mean_blue, [[std_blue*5,0],[0,std_blue]], nbr_blue_points).T
-        target_x_red, target_y_red = np.random.multivariate_normal(mean_red, [[std_red*5,0],[0,std_red]], nbr_red_points).T
-        target_x_green, target_y_green = np.random.multivariate_normal(mean_green, [[std_green*5,0],[0,std_green]], nbr_green_points).T
+        source_x_blue, source_y_blue = np.random.multivariate_normal(mean_blue, [[std_blue,0],[0,std_blue]], nbr_blue_points).T
+        source_x_red, source_y_red = np.random.multivariate_normal(mean_red, [[std_red,0],[0,std_red]], nbr_red_points).T
+        source_x_green, source_y_green = np.random.multivariate_normal(mean_green, [[std_green,0],[0,std_green]], nbr_green_points).T
+        target_x_blue, target_y_blue = np.random.multivariate_normal(mean_blue, [[std_blue,0],[0,std_blue]], nbr_blue_points).T
+        target_x_red, target_y_red = np.random.multivariate_normal(mean_red, [[std_red,0],[0,std_red]], nbr_red_points).T
+        target_x_green, target_y_green = np.random.multivariate_normal(mean_green, [[std_green,0],[0,std_green]], nbr_green_points).T
 
         source_blue_z, source_red_z, source_green_z = [],[],[]
         target_blue_z, target_red_z, target_green_z = [],[],[]

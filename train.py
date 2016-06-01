@@ -22,7 +22,7 @@ def euclidean_distance(inputs):
 
 def contrastive_loss(y, d):
     '''Contrastive loss from Hadsell-et-al.'06
-    http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+    http://yann.lecun.cohe distance between the center of a source class and all the target points of this class.m/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
     '''
 
     margin = 1
