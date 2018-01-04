@@ -1,7 +1,11 @@
 # Transformation-Reverser
 
 ## Description
-Neural networks learning to reverse 2D space transformations (translation, rotations, scaling). A GUI allows the users to define the datasets and the transformations, and to see the result. You can choose to use two kinds of neural networks :
+Neural networks learning to reverse 2D space transformations (translation, rotations, scaling). A GUI allows the users to define the datasets and the transformations, and to see the result. 
+
+![](https://artix41.github.io/static/content/images/2018/01/capture_01.png)
+
+You can choose to use two kinds of neural networks :
 
 * Corrector :
 
